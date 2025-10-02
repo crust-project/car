@@ -2,8 +2,6 @@
 
 Car is a package manager for **Minixor Linux**. It will also become a wrapper for other package managers to simplify package management.
 
-> **Note:** Project status: no bundling or packaging yet. You can clone the repo and run it. Work in progress.
-
 ## Syntax
 
 ```bash
