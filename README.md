@@ -8,6 +8,8 @@ Car is a package manager for **Minixor Linux**. It will also become a wrapper fo
 - [ ] More advanced versioning
 - [x] Mirrors (I have the changes locally)
 - [ ] Website with all packages from official repos
+- [ ] .car tarballs so installation is not only online
+    - [ ] if the package argument of get ends with .car, install locally
 
 ## Syntax
 
