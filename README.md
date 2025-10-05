@@ -6,7 +6,7 @@ Car is a package manager for **Minixor Linux**. It will also become a wrapper fo
 - [x] Basic functionality
 - [x] Basic versioning
 - [ ] More advanced versioning
-- [x] Mirrors (I have the changes locally)
+- [x] Mirrors
 - [ ] Website with all packages from official repos
 - [ ] .car tarballs so installation is not only online
     - [ ] if the package argument of get ends with .car, install locally
@@ -64,6 +64,10 @@ Provide build steps. If no build is required print:
 ```python
 print(":: No build required")
 ```
+
+#### install()
+
+If the installation is not done in build(), do it here. You do not need to print no deps required, because installing (moving to /usr/bin/) does not take long. 
 
 #### postinst()
 
