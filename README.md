@@ -1,6 +1,6 @@
 # Car
 
-Car is a package manager for **Minixor Linux**. It will also become a wrapper for other package managers to simplify package management.
+Car is a package manager for Redrose Linux. It will also become a wrapper for other package managers to simplify package management.
 
 ## Roadmap
 - [x] Basic functionality
