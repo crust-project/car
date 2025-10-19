@@ -4,6 +4,7 @@ from rich.console import Console
 import sys
 from status import status
 import mirrors
+import hooks
 
 console = Console()
 
@@ -38,7 +39,7 @@ def main(package, noconfirm=False):
 
         status("Going to /tmp", "info")
         os.chdir("/tmp/")
-
+    
         found = False
 
         for mirror in mirrors.install_script_places:
@@ -46,8 +47,11 @@ def main(package, noconfirm=False):
             status(f"Trying {url}", "info")
 
             result = os.system(f"curl -s -L -o install_script.py {url}")
+            
+            with open("install_script.py", "r") as f:
+                script = f.read()                
 
-            if result == 0:
+            if script != "404: Not Found":
                 status(f"Successfully fetched install script from: {url}", "success")
                 found = True
                 break
@@ -92,7 +96,7 @@ def main(package, noconfirm=False):
 
         if not noconfirm:
             console.print("::", style="blue bold", end=" ")
-            sure = input("Are you sure? (Y/n) ")
+            sure = input("Install dependencies and build? (Y/n) ")
             if sure not in ("", "y", "Y"):
                 return
 
@@ -102,11 +106,19 @@ def main(package, noconfirm=False):
         status("Building", "ok")
         install_script.build()
 
+        if not noconfirm:
+            console.print("::", style="blue bold", end=" ")
+            sure = input("Install? (Y/n) ")
+            if sure not in ("", "y", "Y"):
+                return
+
         status("Installing", "ok")
         install_script.install()
 
         installed_versions[package] = script_version
         write_installed_versions(repro_path, installed_versions)
+
+        hooks.post_inst(package)
 
         if hasattr(install_script, "postinst"):
             install_script.postinst()
