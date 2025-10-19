@@ -26,6 +26,20 @@ car update
 - `delete <package>` - remove a package.
 - `update` - update all packages. *(currently not functional)*
 
+## Creating hooks
+1. Add the file to your .config/car/post-inst-hooks file
+2. create the file
+
+## Making repos
+1. open .config/mirrors.car
+2. add something similar to this:
+```
+:base:
+install_script = https://raw.githubusercontent.com/crust-project/car-binary-storage/main/
+packagelist = https://raw.githubusercontent.com/crust-project/car/main/existing-packages.txt
+:end:
+```
+
 ## Creating packages
 
 Start by creating a file named `install_script`.
