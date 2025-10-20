@@ -14,17 +14,23 @@ Car is a package manager for Redrose Linux. It will also become a wrapper for ot
 ## Syntax
 
 ```bash
-car get|delete|update
+car get|delete|update|search|updatelist|init
 
 # Examples
 car get <package> [--noconfirm]
 car delete <package>
-car update
+car update <package>
+car search <package>
+car updatelist
+car init
 ```
 
-- `get <package> [--noconfirm]` - install a package. Use `--noconfirm` to skip prompts.
-- `delete <package>` - remove a package.
-- `update` - update all packages. *(currently not functional)*
+- get <package> [--noconfirm] — install a package. Use --noconfirm to skip prompts.
+- delete <package> — remove a package.
+- update <package> — update a specific package. _(currently not functional)_
+- search <package> — search for a package.
+- updatelist — update the package list.
+- init — initialize Car.
 
 ## Creating hooks
 1. Add the file to your .config/car/post-inst-hooks file
