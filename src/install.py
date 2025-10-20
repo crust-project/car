@@ -5,10 +5,13 @@ import sys
 from status import status
 import mirrors
 import hooks
+import get_package_list
 
 console = Console()
 
 def main(package, noconfirm=False):
+    if get_package_list.main(package) != True:
+        return False
     try:
         repro_path = "/home/" + os.getlogin() + "/.config/repro.car"
 
