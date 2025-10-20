@@ -3,6 +3,8 @@ import install
 import delete
 import update
 import search
+import updatelist
+import init
 
 parser = argparse.ArgumentParser(description="A simple package manager")
 subparsers = parser.add_subparsers(dest="command", required=True)
@@ -23,6 +25,12 @@ p_update.add_argument("package", help="Package to update")
 p_search = subparsers.add_parser("search", help="Search for a package")
 p_search.add_argument("package", help="Package to search for") 
 
+# updatelist
+p_search = subparsers.add_parser("updatelist", help="Update packagelist")
+
+# init
+p_search = subparsers.add_parser("init", help="Init Car")
+
 args = parser.parse_args()
 
 if args.command == "get":
@@ -33,4 +41,7 @@ elif args.command == "update":
     update.main(args.package)
 elif args.command == "search":
     search.main(args.package)
-
+elif args.command == "updatelist":
+    updatelist.main()
+elif args.command == "init":
+    init.main()
