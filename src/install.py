@@ -6,10 +6,15 @@ from status import status
 import mirrors
 import hooks
 import get_package_list
+import umbrella.autocorrect_package as Autocorrect
 
 console = Console()
 
 def main(package, noconfirm=False):
+    autocorrected = Autocorrect.main(package)
+    print(autocorrected)
+    if autocorrected != package:
+        package = autocorrected
     if get_package_list.main(package) != True:
         return False
     try:
