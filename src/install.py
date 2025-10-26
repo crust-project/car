@@ -47,7 +47,7 @@ def main(package, noconfirm=False):
 
         status("Going to /tmp", "info")
         os.chdir("/tmp/")
-    
+
         found = False
 
         for mirror in mirrors.install_script_places:
@@ -55,9 +55,9 @@ def main(package, noconfirm=False):
             status(f"Trying {url}", "info")
 
             result = os.system(f"curl -s -L -o install_script.py {url}")
-            
+
             with open("install_script.py", "r") as f:
-                script = f.read()                
+                script = f.read()
 
             if script != "404: Not Found":
                 status(f"Successfully fetched install script from: {url}", "success")
@@ -130,6 +130,9 @@ def main(package, noconfirm=False):
 
         if hasattr(install_script, "postinst"):
             install_script.postinst()
+
+        status("Cleaning up")
+        os.system("rm -f /tmp/install_script.py")
     except Exception:
         console.print("::", style="red", end=" ")
         console.print("Unhandled exception")
