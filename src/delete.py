@@ -1,40 +1,42 @@
 import os
 import sys
 from rich.console import Console
+from status import status
+import umbrella.autocorrect_package as Autocorrect
 
 console = Console()
 
-def status(msg, level="info"):
-    colors = {
-        "info": "blue",
-        "ok": "green",
-        "error": "red",
-    }
-    color = colors.get(level, "blue") + " bold"
-    console.print("::", style=color, end=" ")
-    console.print(msg)
+def main(package):
+    autocorrected = Autocorrect.main(package)
+    print(autocorrected)
+    if autocorrected != package:
+        package = autocorrected
 
-def main(pkgname):
-    if not os.path.isfile("/home/" + os.getlogin() + "/.config/repro.car"):
+    if not os.path.exists(f"/home/{os.getlogin()}/.config/repro.car"):
         status("No repro.car file. Creating", "warn")
-        with open("/home/" + os.getlogin() + "/.config/repro.car", "w") as f:
-            f.write()
-    else:
-        with open("/home/" + os.getlogin() + "/.config/repro.car", "r") as f:
-            pkgs_installed = f.read()
-            pkgs_installed = pkgs_installed.replace(pkgname, "")
-        with open("/home/" + os.getlogin() + "/.config/repro.car", "w") as f:
-            f.write(pkgs_installed)
+        os.makedirs(f"/home/{os.getlogin()}/.config", exist_ok=True)
+        open(f"/home/{os.getlogin()}/.config/repro.car", "w").close()
+        return False
 
-    status(f"Uninstalling {pkgname}...", "info")
+    with open(f"/home/{os.getlogin()}/.config/repro.car") as f:
+        repro = f.read()
+
+    if package not in repro:
+        status(f"Target not found: {package}", "error")
+        return False
+
+    with open(f"/home/{os.getlogin()}/.config/repro.car", "w") as f:
+        f.write("\n".join(l for l in repro.splitlines() if l.strip() != package))
+
+    status(f"Uninstalling {package}...", "info")
     try:
-        exit_code = os.system(f"sudo rm /usr/bin/{pkgname}")
-        if exit_code != 0:
-            status(f"Failed to uninstall {pkgname}", "error")
-            sys.exit(1)
-        status(f"Successfully uninstalled {pkgname}", "ok")
+        if os.system(f"sudo rm -f /usr/bin/{package}") != 0:
+            status(f"Failed to uninstall {package}", "error")
+            return False
+        status(f"Successfully uninstalled {package}", "ok")
+        return True
     except Exception:
         console.print("::", style="red", end=" ")
         console.print("Unhandled exception")
         console.print_exception()
-        sys.exit(1)
+        return False
