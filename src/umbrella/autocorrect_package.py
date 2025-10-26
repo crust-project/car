@@ -1,10 +1,13 @@
 import os
 
 """
-Autocorrect for packages. minor edits on 21st october 2025
+Autocorrect for packages.
+Inspired by apt.
 
 Patches
 28.9.2025.create - Create the script
+21.10.2025.edit.minor - adopt for use with car
+26.10.2025.edit.minor - adopt to use for multiple funcs
 """
 
 def levenshtein_distance(a, b):
@@ -35,5 +38,5 @@ def main(package):
         pkgs = f.read().splitlines()
     install = find_best_match(package, pkgs)
     if install != package:
-        print("Note: Installing " + install + " instead of " + package)
+        print("Note: Using " + install + " instead of " + package)
     return install
