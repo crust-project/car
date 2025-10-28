@@ -1,4 +1,4 @@
 example
 crust
 reskin
-vim
+vim-build
